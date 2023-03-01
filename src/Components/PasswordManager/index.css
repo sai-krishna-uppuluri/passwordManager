@@ -4,8 +4,11 @@
 }
 
 .app-container {
+  padding-top: 40px;
+  padding-bottom: 50px;
   min-height: 100vh;
   background-color: #9ba9eb;
+  background-size: cover;
 }
 
 .logo {
@@ -191,6 +194,7 @@
   border-style: solid;
   border-width: 1px;
   width: 100%;
+  margin: 8px;
 }
 
 .heading {
@@ -266,4 +270,22 @@
   .hl-line {
     margin-top: 2.5px;
   }
+}
+
+.password-list-view {
+  list-style-type: none;
+  margin: 35px;
+  display: flex;
+}
+
+.no-password-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.no-password-image {
+  height: 400px;
+  width: 400px;
 }

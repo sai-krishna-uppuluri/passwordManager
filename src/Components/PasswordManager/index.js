@@ -1,5 +1,7 @@
 import {Component} from 'react'
 import './index.css'
+import {v4 as uuidv4} from 'uuid'
+import PasswordItem from '../PasswordItem'
 
 class PasswordManager extends Component {
   state = {
@@ -9,15 +11,43 @@ class PasswordManager extends Component {
     passwordItemList: [],
   }
 
+  renderNoPasswordView = () => (
+    <div className="no-password-view">
+      <img
+        src="https://assets.ccbp.in/frontend/react-js/no-passwords-img.png"
+        alt="no password"
+        className="no-password-image"
+      />
+      <h1 className="add-password-heading"> No Passwords</h1>
+    </div>
+  )
+
+  renderPasswordItem = () => {
+    const {passwordItemList} = this.state
+
+    return (
+      <ul className="password-list-view">
+        {passwordItemList.map(eachPasswordItem => (
+          <PasswordItem
+            eachPasswordItem={eachPasswordItem}
+            key={eachPasswordItem.id}
+          />
+        ))}
+      </ul>
+    )
+  }
+
   getSecondContainer = () => {
     const {passwordItemList} = this.state
+
+    const passwordItemListLength = passwordItemList.length
 
     return (
       <div className="second-inner-container">
         <div className="feature-container">
           <div className="score-password">
             <h1 className="heading"> Your Password </h1>
-            <h1 className="para"> 11</h1>
+            <h1 className="para">{passwordItemListLength}</h1>
           </div>
           <div className="search-container">
             <img
@@ -39,6 +69,9 @@ class PasswordManager extends Component {
             <p className="para">Show Passwords</p>
           </div>
         </div>
+        {passwordItemListLength > 0
+          ? this.renderPasswordItem()
+          : this.renderNoPasswordView()}
       </div>
     )
   }
@@ -49,6 +82,7 @@ class PasswordManager extends Component {
     const {userName, websiteName, password} = this.state
 
     const newData = {
+      id: uuidv4(),
       userName,
       websiteName,
       password,
@@ -87,7 +121,7 @@ class PasswordManager extends Component {
     const {userName, websiteName, password} = this.state
 
     // console.log(userName, websiteName, password)
-    //  console.log(passwordItemList)
+    // console.log(passwordItemList)
     return (
       <div className="app-container">
         <img
