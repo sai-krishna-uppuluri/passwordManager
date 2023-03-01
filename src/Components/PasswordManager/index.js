@@ -9,6 +9,15 @@ class PasswordManager extends Component {
     websiteName: '',
     password: '',
     passwordItemList: [],
+    isShowPasswordActive: false,
+  }
+
+  deletePassword = id => {}
+
+  onClickShowPassword = () => {
+    this.setState(prevState => ({
+      isShowPasswordActive: !prevState.isShowPasswordActive,
+    }))
   }
 
   renderNoPasswordView = () => (
@@ -23,7 +32,9 @@ class PasswordManager extends Component {
   )
 
   renderPasswordItem = () => {
-    const {passwordItemList} = this.state
+    const {passwordItemList, isShowPasswordActive} = this.state
+
+    console.log(isShowPasswordActive)
 
     return (
       <ul className="password-list-view">
@@ -31,6 +42,7 @@ class PasswordManager extends Component {
           <PasswordItem
             eachPasswordItem={eachPasswordItem}
             key={eachPasswordItem.id}
+            isActive={isShowPasswordActive}
           />
         ))}
       </ul>
@@ -65,7 +77,11 @@ class PasswordManager extends Component {
         <hr className="hl-line" />
         <div className="show-password-container">
           <div className="show-password">
-            <input type="checkbox" className="checkbox-field" />
+            <input
+              type="checkbox"
+              className="checkbox-field"
+              onClick={this.onClickShowPassword}
+            />
             <p className="para">Show Passwords</p>
           </div>
         </div>
@@ -120,6 +136,7 @@ class PasswordManager extends Component {
   render() {
     const {userName, websiteName, password} = this.state
 
+    // console.log(isShowPasswordActive)
     // console.log(userName, websiteName, password)
     // console.log(passwordItemList)
     return (
