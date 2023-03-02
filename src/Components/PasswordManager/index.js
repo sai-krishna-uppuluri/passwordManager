@@ -3,6 +3,16 @@ import './index.css'
 import {v4 as uuidv4} from 'uuid'
 import PasswordItem from '../PasswordItem'
 
+const initialContainerBackgroundClassNames = [
+  'amber',
+  'blue',
+  'orange',
+  'emerald',
+  'teal',
+  'red',
+  'light-blue',
+]
+
 class PasswordManager extends Component {
   state = {
     userName: '',
@@ -10,9 +20,37 @@ class PasswordManager extends Component {
     password: '',
     passwordItemList: [],
     isShowPasswordActive: false,
+    searchInput: '',
   }
 
-  deletePassword = id => {}
+  onChangeSearchInput = event => {
+    this.setState({
+      searchInput: event.target.value,
+    })
+  }
+
+  getFilteredItems = () => {
+    const {passwordItemList, searchInput} = this.state
+    const filteredPasswordItems = passwordItemList.filter(
+      eachPasswordItemList =>
+        eachPasswordItemList.websiteName.includes(searchInput),
+    )
+    return filteredPasswordItems
+  }
+
+  deletePassword = id => {
+    const {passwordItemList} = this.state
+
+    /* const filteredPasswordItemList = passwordItemList.filter(
+      eachPasswordItem => id !== eachPasswordItem.id,
+    ) */
+
+    this.setState({
+      passwordItemList: passwordItemList.filter(
+        eachPasswordItemList => id !== eachPasswordItemList.id,
+      ),
+    })
+  }
 
   onClickShowPassword = () => {
     this.setState(prevState => ({
@@ -32,17 +70,18 @@ class PasswordManager extends Component {
   )
 
   renderPasswordItem = () => {
-    const {passwordItemList, isShowPasswordActive} = this.state
+    const {isShowPasswordActive} = this.state
 
-    console.log(isShowPasswordActive)
+    const filteredItems = this.getFilteredItems()
 
     return (
       <ul className="password-list-view">
-        {passwordItemList.map(eachPasswordItem => (
+        {filteredItems.map(eachPasswordItem => (
           <PasswordItem
             eachPasswordItem={eachPasswordItem}
             key={eachPasswordItem.id}
             isActive={isShowPasswordActive}
+            deletePassword={this.deletePassword}
           />
         ))}
       </ul>
@@ -71,6 +110,7 @@ class PasswordManager extends Component {
               type="search"
               className="input-field-search"
               placeholder="Enter Search Name"
+              onChange={this.onChangeSearchInput}
             />
           </div>
         </div>
@@ -96,12 +136,21 @@ class PasswordManager extends Component {
     event.preventDefault()
 
     const {userName, websiteName, password} = this.state
+    const backgroundClassNameForPasswordItem = `name-round-container
+    ${
+      initialContainerBackgroundClassNames[
+        Math.ceil(
+          Math.random() * initialContainerBackgroundClassNames.length - 1,
+        )
+      ]
+    }`
 
     const newData = {
       id: uuidv4(),
       userName,
       websiteName,
       password,
+      backgroundClassName: backgroundClassNameForPasswordItem,
     }
 
     this.setState(prevState => ({

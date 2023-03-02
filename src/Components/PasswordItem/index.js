@@ -3,12 +3,19 @@ import './index.css'
 const PasswordItem = props => {
   const {eachPasswordItem, isActive} = props
 
-  const {userName, websiteName, password} = eachPasswordItem
+  const {
+    userName,
+    websiteName,
+    password,
+    id,
+    backgroundClassName,
+  } = eachPasswordItem
 
   const websiteNameFirstLetter = websiteName[0]
 
   const onClickDeleteButton = () => {
-    deletePassword()
+    const {deletePassword} = props
+    deletePassword(id)
   }
 
   const passwordView = () => {
@@ -23,7 +30,7 @@ const PasswordItem = props => {
     <li className="password-list">
       <div className="item-container">
         <div className="item-inner-container">
-          <div className="name-round-container">
+          <div className={backgroundClassName}>
             <h1>{websiteNameFirstLetter}</h1>
           </div>
           <div className="credentials-container">
@@ -34,7 +41,7 @@ const PasswordItem = props => {
           <button
             type="button"
             className="delete-button"
-            onClick={onClickDeleteButton()}
+            onClick={onClickDeleteButton}
           >
             <img
               src="https://assets.ccbp.in/frontend/react-js/password-manager-delete-img.png"
